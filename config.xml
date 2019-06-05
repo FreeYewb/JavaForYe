@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<entry key = "admin_password">password</entry>
+<entry key = "admin_username">jack</entry>
+<entry key = "ip">192.168.1.1</entry>
+</properties>
