@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body onload="javascript:init()">
+<script language="JavaScript">
+
+$(".screen-full").on("click", function (e) {
+        e.preventDefault();
+        if (!$(this).hasClass("full-on")) {
+            var docElm = document.documentElement;
+            var full = docElm.requestFullScreen || docElm.webkitRequestFullScreen ||
+                docElm.mozRequestFullScreen || docElm.msRequestFullscreen;
+            "undefined" !== typeof full && full && full.call(docElm);
+        } else {
+            document.exitFullscreen ? document.exitFullscreen()
+                : document.mozCancelFullScreen ? document.mozCancelFullScreen()
+                : document.webkitCancelFullScreen ? document.webkitCancelFullScreen()
+                    : document.msExitFullscreen && document.msExitFullscreen()
+        }
+        $(this).toggleClass("full-on");
+    });
+</script>
+</html>

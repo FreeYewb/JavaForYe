@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+ 
+<body>
+	<canvas id="myCanvas" width="100" height="30"></canvas>
+	<br />
+	<input type="text" name="" id="test1"><br />
+	<div id="test2"></div>
+ 
+</body>
+<script type="text/javascript">
+	class mathCode{
+		constructor(id,value) {
+			this.id = id;
+			this.value = value;
+			this.code = null;
+		}
+		// 生成一个随机色
+		randomColor(min, max) {
+		    let r = this.randomNum(min, max);
+		    let g = this.randomNum(min, max);
+		    let b = this.randomNum(min, max);
+		    return 'rgb(' + r + ',' + g + ',' + b + ')';
+		}
+ 
+		// 生成一个随机数
+		randomNum(min, max) {
+		    return Math.floor(Math.random() * (max - min) + min);
+		}
+		// 生成随机码
+		createCode() {
+		    this.code = '';
+		    //验证码的长度
+		    let codeLength = 4;
+		    const checkCode = document.getElementById(this.id);
+		    const codeChars = [];
+		    // 验证码所需数字和字母的集合
+		    for (let i = 0; i < 26; i++) {
+		        if (i < 10) {
+		            codeChars.push(String.fromCharCode(i + 48));
+		        }
+		        codeChars.push(String.fromCharCode(i + 97));
+		        codeChars.push(String.fromCharCode(i + 65));
+		    }
+		    // 组合数字和字母
+		    for (let i = 0; i < codeLength; i++) {
+		        let charNum = Math.floor(Math.random() * 52);
+		        this.code += codeChars[charNum];
+		    }
+		    this.value = this.code;
+		    if (checkCode) {
+		        this.drawVerify();
+		    }
+		}
+		// 绘制验证码图形
+		drawVerify() {
+			const cEle = document.getElementById(this.id);
+			const value = this.value;
+			this.code = value;
+		    const [ctx, width, height] = [cEle.getContext('2d'), cEle.width, cEle.height];
+ 
+		    // 清空画布
+		    ctx.clearRect(0, 0, width, height);
+		    // 绘制背景色
+		    ctx.fillStyle = this.randomColor(180, 240);
+		    ctx.fillRect(0, 0, width, height);
+		    // 填充字体
+		    ctx.font = '30px Arial';
+		    ctx.fillStyle = this.randomColor(50, 160);
+		    ctx.fillText(value, 18, 25);
+		    // 绘制干扰线
+		    for (var i = 0; i < 10; i++) {
+		        ctx.strokeStyle = this.randomColor(40, 180);
+		        ctx.beginPath();
+		        ctx.moveTo(this.randomNum(0, width), this.randomNum(0, height));
+		        ctx.lineTo(this.randomNum(0, width), this.randomNum(0, height));
+		        ctx.stroke();
+		    }
+		    // 绘制干扰点
+		    for (var i = 0; i < 30; i++) {
+		        ctx.fillStyle = this.randomColor(0, 255);
+		        ctx.beginPath();
+		        ctx.arc(this.randomNum(0, width), this.randomNum(0, height), 1, 0, 2 * Math.PI);
+		        ctx.fill();
+		    }
+		}
+		// 验证
+		/* inputId 输入框ID, warnId 提示内容ID */
+		validateCode(inputId,warnId) {
+		    const [inputCode, warnToast] = [document.getElementById(inputId).value, document.getElementById(warnId)];
+ 
+		    if (inputCode.length <= 0) {
+		        warnToast.innerHTML = '请输入验证码！';
+		    } else if (inputCode.toUpperCase() != this.code.toUpperCase()) {
+		        warnToast.innerHTML = '验证码错误';
+		        this.createCode();
+		    } else {
+		        warnToast.innerHTML = '验证码正确！';
+		    }
+		}
+	}
+	const Math1 = new mathCode("myCanvas","H6G4");
+	Math1.drawVerify();//生成二维码
+	Math1.validateCode();//校验
+</script>
+</html>

@@ -1,0 +1,99 @@
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ include file="/common/taglibs.jsp"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="${base}/js/frame/layui/css/layui.css" media="all" />
+<script type="text/javascript" src="${base}/js/plugin/jquery/jquery-1.10.2.min.js"></script>
+<script src="${base}/js/frame/layui/layui.js" charset="utf-8"></script>
+</head>
+<body>
+
+	<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+		<legend>修改密码</legend>
+	</fieldset>
+	<form class="layui-form" >
+		<div class="layui-form-item">
+			<label class="layui-form-label">旧密码</label>
+			<div class="layui-input-block">
+				<input type="password" name="oldPwd" lay-verify="required"   autocomplete="off" placeholder="请输入"    class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">新密码</label>
+			<div class="layui-input-block">
+				<input type="password" name="newPwd1" lay-verify="required"   placeholder="请输入" autocomplete="off"  class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">确认新密码</label>
+			<div class="layui-input-block">
+				<input type="password" name="newPwd2" lay-verify="required"   placeholder="请输入" autocomplete="off" lay-verify="required"  class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+
+			</div>
+		</div>
+	</form>
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn" id="backBtn" lay-submit=""  lay-filter="demo22" style="display: none;width: 92px" >返回</button>
+		</div>
+	</div>
+
+
+	<script>
+        function getQueryStringByDecode(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return decodeURI(r[2]); return "";
+        }
+
+
+        layui.use(['form', 'layedit', 'laydate'], function(){
+            var form = layui.form
+                ,layer = layui.layer
+                ,layedit = layui.layedit
+                ,laydate = layui.laydate;
+			var backBtn = getQueryStringByDecode("backBtn");
+			if(backBtn!=null && backBtn=="true"){
+                $('#backBtn').show();
+                $('#backBtn').click(function () {
+					window.history.back();
+					return;
+                });
+			}
+            form.on('submit(demo1)', function(data){
+                var p = data.field;
+                if(p.newPwd1!=p.newPwd2){
+                    layer.alert("2次输入新密码不正确", {
+                        title: '提示'
+                    });
+                    return false;
+				}
+
+				$.getJSON("${base}/tuiguang/user/password/update",p,function (res) {
+                    alert(res.msg);
+                    if(res.code==0&&backBtn=="true"){
+                        $('#backBtn').click();
+                        return ;
+					}
+                    window.location.reload();
+                });
+                return false;
+            });
+        });
+	</script>
+
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>二维码随机生成</title>
+    
+<script type='text/javascript' src='http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js'></script>
+<script type="text/javascript" src="http://cdn.staticfile.org/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+    <style type="text/css">
+        
+    </style>
+</head>
+<body>
+    <div class="code">
+        <div id="code">
+        </div>
+        
+    </div>
+    
+    
+    <script type="text/javascript">
+        $(function() {
+            //页面5分钟重新刷新一次
+            setInterval(function(){
+                window.location.reload(); 
+            },4000);
+            
+            var num = '';
+            var num_list = "0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ";
+            for(i= 0;i<20;i++){
+                num += num_list.substr(Math.floor(Math.random() * 62), 1) + '';
+            }
+            var str = num;
+            $("#code").qrcode({
+                render: "table",// 渲染方式有table方式和canvas方式    
+                width: 150,//默认宽度
+                height: 150,//默认高度
+                text: str//二维码内容,此处直接使用生成的，客户端自行拼接回调地址，调用登陆接口
+            });
+        })
+      
+    </script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>游戏运营系统</title>
+	<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="${base}/js/frame/layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="${base}/js/frame/font-awesome/css/font-awesome.min.css" media="all" />
+	<link rel="stylesheet" href="${base}/css/frame/themes/blue.css" media="all" id="skin" kit-skin />
+	<link rel="stylesheet" href="${base}/css/frame/app.css" media="all" />
+</head>
+
+<body class="kit-theme">
+<audio id="chatAudio">
+	<source src="${base}/static/plugin/notify.mp3" type="audio/mpeg">
+</audio>
+
+<div class="layui-layout layui-layout-admin kit-layout-admin">
+	<div class="layui-header">
+		<div class="layui-logo">${title}</div>
+		<div class="layui-logo kit-logo-mobile">E</div>
+		<ul class="layui-nav layui-layout-left kit-nav">
+			<!--
+			<li class="layui-nav-item"><a href="javascript:;">控制台</a></li>
+			<li class="layui-nav-item"><a href="javascript:;">商品管理</a></li>
+			<li class="layui-nav-item">
+				<a href="javascript:;">其它系统</a>
+				<dl class="layui-nav-child">
+					<dd><a href="javascript:;">邮件管理</a></dd>
+					<dd><a href="javascript:;">消息管理</a></dd>
+					<dd><a href="javascript:;">授权管理</a></dd>
+				</dl>
+			</li>-->
+		</ul>
+		<ul class="layui-nav layui-layout-right kit-nav">
+			<li class="layui-nav-item" style="display: none">
+				<a href="javascript:;">
+					<i class="layui-icon">&#xe63f;</i> 皮肤</a>
+				</a>
+				<dl class="layui-nav-child skin">
+					<dd><a href="javascript:;" data-skin="default" style="color:#393D49;"><i class="layui-icon">&#xe658;</i> 默认</a></dd>
+					<dd><a href="javascript:;" data-skin="orange" style="color:#ff6700;"><i class="layui-icon">&#xe658;</i> 橘子橙</a></dd>
+					<dd><a href="javascript:;" data-skin="green" style="color:#00a65a;"><i class="layui-icon">&#xe658;</i> 原谅绿</a></dd>
+					<dd><a href="javascript:;" data-skin="pink" style="color:#FA6086;"><i class="layui-icon">&#xe658;</i> 少女粉</a></dd>
+					<dd><a href="javascript:;" data-skin="blue" style="color:#00c0ef;"><i class="layui-icon">&#xe658;</i> 天空蓝</a></dd>
+					<dd><a href="javascript:;" data-skin="red" style="color:#dd4b39;"><i class="layui-icon">&#xe658;</i> 枫叶红</a></dd>
+				</dl>
+			</li>
+			<li class="layui-nav-item">
+				<a href="javascript:;">
+					<img src="http://m.zhengjinfan.cn/images/0.jpg" class="layui-nav-img"> ${name}
+				</a>
+				<dl class="layui-nav-child">
+					<dd><a href="javascript:baseInfo()"><span>基本资料</span></a></dd>
+				</dl>
+			</li>
+			<script>
+				function baseInfo() {
+                    tabAdd("基本资料","/system/user/base")
+                }
+			</script>
+			<li class="layui-nav-item"><a href="${base}/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a></li>
+		</ul>
+	</div>
+
+	<div class="layui-side layui-bg-black kit-side">
+		<div class="layui-side-scroll">
+			<div class="kit-side-fold"><i class="fa fa-navicon" aria-hidden="true"></i></div>
+			<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+			<ul class="layui-nav layui-nav-tree" lay-filter="kitNavbar" kit-navbar>
+				<shiro:hasPermission name="admin" >
+				<li class="layui-nav-item">
+						<a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span>玩家管理</span></a>
+
+					<dl class="layui-nav-child">
+							<dd><a href="javascript:;" id="first" kit-target data-options="{url:'${base}/user/online',icon:'&#xe6c6;',title:'用户在线查询',id:'100'}"><i class="layui-icon">&#xe6c6;</i><span> 用户在线查询</span></a></dd>
+							<dd><a href="javascript:;" kit-target data-options="{url:'${base}/user/manager',icon:'&#xe6c6;',title:'用户管理',id:'110'}"><i class="layui-icon">&#xe6c6;</i><span> 新增用户</span></a></dd>
+							<dd><a href="javascript:;" kit-target data-options="{url:'${base}/user/login/fenxi',icon:'&#xe6c6;',title:'登录异常查看',id:'113'}"><i class="layui-icon">&#xe6c6;</i><span> 登录异常查看</span></a></dd>
+							<dd><a href="javascript:;" kit-target data-options="{url:'${base}/shield/index',icon:'&#xe6c6;',title:'薅羊毛配置',id:'111'}"><i class="layui-icon">&#xe6c6;</i><span> 薅羊毛配置</span></a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item ">
+					<a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span>非游戏相关数据</span></a>
+
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/user/coin/inputAndOutput',icon:'&#xe6c6;',title:'支出与收入',id:'132'}"><i class="layui-icon">&#xe6c6;</i><span> 支出与收入</span></a></dd>
+						<!--
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/admin/pay/static/qrcode',icon:'&#xe6c6;',title:'支付宝收款码',id:'160'}"><i class="layui-icon">&#xe6c6;</i><span>支付宝收款码</span></a></dd>
+						-->
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/order/index',icon:'&#xe6c6;',title:'充值订单',id:'157'}"><i class="layui-icon">&#xe6c6;</i><span> 充值订单</span></a></dd>
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/tuiguang/recharge/tongji',icon:'&#xe6c6;',title:'代理充值统计',id:'160'}"><i class="layui-icon">&#xe6c6;</i><span> 代理充值统计</span></a></dd>
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/order/tongji',icon:'&#xe6c6;',title:'充值统计',id:'158'}"><i class="layui-icon">&#xe6c6;</i><span> 充值统计</span></a></dd>
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/user/settlement',icon:'&#xe6c6;',title:'提现',id:'159'}"><i class="layui-icon">&#xe6c6;</i><span> 提现</span></a></dd>
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/notice/index',icon:'&#xe6c6;',title:'公告管理',id:'154'}"><i class="layui-icon">&#xe6c6;</i><span> 公告管理</span></a></dd>
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/activity/index',icon:'&#xe6c6;',title:'活动管理',id:'156'}"><i class="layui-icon">&#xe6c6;</i><span> 活动管理</span></a></dd>
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/user/feedback',icon:'&#xe6c6;',title:'游戏用户反馈',id:'155'}"><i class="layui-icon">&#xe6c6;</i><span> 游戏用户反馈</span></a></dd>
+
+					</dl>
+				</li>
+
+				<li class="layui-nav-item">
+					<a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span>游戏相关数据</span></a>
+
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/game/inputOutput',icon:'&#xe6c6;',title:'支出与收入',id:'310'}"><i class="layui-icon">&#xe6c6;</i><span> 支出与收入</span></a></dd>
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/game/wincoin/top',icon:'&#xe6c6;',title:'累计赢取统计',id:'312'}"><i class="layui-icon">&#xe6c6;</i><span> 累计赢取统计</span></a></dd>
+						<!--
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/user/game/coin',icon:'&#xe6c6;',title:'玩家游戏输赢',id:'311'}"><i class="layui-icon">&#xe6c6;</i><span> 玩家游戏输赢</span></a></dd>
+						-->
+					</dl>
+				</li>
+
+				<li class="layui-nav-item ">
+					<a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span>机器人</span></a>
+
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/game/robot/config',icon:'&#xe6c6;',title:'机器人配置',id:'401'}"><i class="layui-icon">&#xe6c6;</i><span> 机器人配置</span></a></dd>
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/game/robot',icon:'&#xe6c6;',title:'机器人管理',id:'402'}"><i class="layui-icon">&#xe6c6;</i><span> 机器人管理</span></a></dd>
+					</dl>
+				</li>
+				<li class="layui-nav-item">
+					<a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span>代理总控台</span></a>
+
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/tuiguang/manager',icon:'&#xe6c6;',title:'代理管理',id:'150'}"><i class="layui-icon">&#xe6c6;</i><span> 代理管理</span></a></dd>
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/tuiguang/notice',icon:'&#xe6c6;',title:'代理系统公告',id:'152'}"><i class="layui-icon">&#xe6c6;</i><span> 代理系统公告</span></a></dd>
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/tuiguang/settlement',icon:'&#xe6c6;',title:'代理结算',id:'154'}"><i class="layui-icon">&#xe6c6;</i><span> 代理结算</span></a></dd>
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/tuiguang/settlement/tongji',icon:'&#xe6c6;',title:'代理结算统计',id:'156'}"><i class="layui-icon">&#xe6c6;</i><span> 代理结算统计</span></a></dd>
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/tuiguang/balance/log',icon:'&#xe6c6;',title:'系统抽水日志',id:'157'}"><i class="layui-icon">&#xe6c6;</i><span> 系统抽水日志</span></a></dd>
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/tuiguang/tongji',icon:'&#xe6c6;',title:'统计报表',id:'160'}"><i class="layui-icon">&#xe6c6;</i><span> 统计报表</span></a></dd>
+					</dl>
+				</li>
+
+				<li class="layui-nav-item ">
+					<a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span>渠道管理</span></a>
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/client/version',icon:'&#xe6c6;',title:'客户端版本',id:'202'}"><i class="layui-icon">&#xe6c6;</i><span> 客户端版本</span></a></dd>
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/qudao/manager',icon:'&#xe6c6;',title:'渠道',id:'201'}"><i class="layui-icon">&#xe6c6;</i><span> 渠道</span></a></dd>
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/qudao/liucun',icon:'&#xe6c6;',title:'渠道留存',id:'210'}"><i class="layui-icon">&#xe6c6;</i><span> 渠道留存</span></a></dd>
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/qudao/tongji',icon:'&#xe6c6;',title:'渠道统计',id:'231'}"><i class="layui-icon">&#xe6c6;</i><span> 渠道统计</span></a></dd>
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/qudao/coin',icon:'&#xe6c6;',title:'渠道金币',id:'233'}"><i class="layui-icon">&#xe6c6;</i><span> 渠道金币</span></a></dd>
+
+
+
+					</dl>
+				</li>
+
+
+
+				<li class="layui-nav-item" style="display: none">
+					<a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span> 系统设置</span></a>
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/system/user',icon:'&#xe6c6;',title:'用户管理',id:'901'}"><i class="layui-icon">&#xe6c6;</i><span> 管理用户</span></a></dd>
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/system/role',icon:'&#xe6c6;',title:'角色管理',id:'902'}"><i class="layui-icon">&#xe6c6;</i><span> 角色管理</span></a></dd>
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/system/permission',icon:'&#xe6c6;',title:'权限管理',id:'903'}"><i class="layui-icon">&#xe6c6;</i><span> 权限管理</span></a></dd>
+					</dl>
+				</li>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="tuiguang:manager" >
+				<li class="layui-nav-item layui-nav-itemed">
+					<a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span>代理系统</span></a>
+					<dl class="layui-nav-child">
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/tuiguang/user/password',icon:'&#xe6c6;',title:'修改密码',id:'310'}"><i class="layui-icon">&#xe6c6;</i><span> 修改密码</span></a></dd>
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/tuiguang/user/manager',icon:'&#xe6c6;',title:'下级代理',id:'336'}"><i class="layui-icon">&#xe6c6;</i><span> 下级代理</span></a></dd>
+						<dd><a href="javascript:;"   kit-target data-options="{url:'${base}/tuiguang/user/recharge',icon:'&#xe6c6;',title:'代理充值',id:'337'}"><i class="layui-icon">&#xe6c6;</i><span> 代理充值</span></a></dd>
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/tuiguang/user/link',icon:'&#xe6c6;',title:'推广地址',id:'320'}"><i class="layui-icon">&#xe6c6;</i><span> 推广地址</span></a></dd>
+						<!--
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/tuiguang/user/settlement',icon:'&#xe6c6;',title:'结算方式',id:'325'}"><i class="layui-icon">&#xe6c6;</i><span> 结算方式</span></a></dd>
+						-->
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/tuiguang/user/settlement',icon:'&#xe6c6;',title:'提现申请',id:'330'}"><i class="layui-icon">&#xe6c6;</i><span> 提现申请</span></a></dd>
+						<dd><a href="javascript:;" kit-target data-options="{url:'${base}/tuiguang/user/tongji',icon:'&#xe6c6;',title:'统计报表',id:'335'}"><i class="layui-icon">&#xe6c6;</i><span> 统计报表</span></a></dd>
+
+					</dl>
+				</li>
+				</shiro:hasPermission>
+				<shiro:hasPermission name="qudao:manager" >
+					<li class="layui-nav-item layui-nav-itemed">
+						<a class="" href="javascript:;"><i class="fa fa-plug" aria-hidden="true"></i><span>渠道人员系统</span></a>
+						<dl class="layui-nav-child">
+							<dd><a href="javascript:;" kit-target data-options="{url:'${base}/qudao/user/data',icon:'&#xe6c6;',title:'渠道数据',id:'401'}"><i class="layui-icon">&#xe6c6;</i><span> 渠道数据</span></a></dd>
+							<dd><a href="javascript:;" kit-target data-options="{url:'${base}/qudao/user/activeStay',icon:'&#xe6c6;',title:'渠道留存',id:'405'}"><i class="layui-icon">&#xe6c6;</i><span> 渠道留存</span></a></dd>
+						</dl>
+					</li>
+				</shiro:hasPermission>
+			</ul>
+		</div>
+	</div>
+	<div class="layui-body" id="container">
+		<!-- 内容主体区域 -->
+		<div style="padding: 15px;"><i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#xe63e;</i> 请稍等...</div>
+	</div>
+
+
+
+	<div class="layui-footer">
+		<!-- 底部固定区域 -->
+		2017 &copy;
+		<a>www.xxx.com 游戏运营系统</a>
+	</div>
+</div>
+<script src="${base}/js/frame/layui/layui.js"></script>
+<script>
+    var message;
+    layui.config({
+        base: 'js/frame/',
+        version: '1.0.1'
+    }).use(['app', 'message'], function() {
+        var app = layui.app,
+            $ = layui.jquery,
+            layer = layui.layer;
+        //将message设置为全局以便子页面调用
+        message = layui.message;
+        //主入口
+        app.set({
+            type: 'iframe'
+        }).init();
+        $('#pay').on('click', function() {
+            layer.open({
+                title: false,
+                type: 1,
+                content: '<img src="/src/images/pay.png" />',
+                area: ['500px', '250px'],
+                shadeClose: true
+            });
+        });
+        $('dl.skin > dd').on('click', function() {
+            var $that = $(this);
+            var skin = $that.children('a').data('skin');
+            switchSkin(skin);
+        });
+        var setSkin = function(value) {
+                layui.data('kit_skin', {
+                    key: 'skin',
+                    value: value
+                });
+            },
+            getSkinName = function() {
+                return layui.data('kit_skin').skin;
+            },
+            switchSkin = function(value) {
+                var _target = $('link[kit-skin]')[0];
+                _target.href = _target.href.substring(0, _target.href.lastIndexOf('/') + 1) + value + _target.href.substring(_target.href.lastIndexOf('.'));
+                setSkin(value);
+            },
+            initSkin = function() {
+                switchSkin("blue");
+            }();
+        	//$('.layui-nav-tree dd a' ).first().click();
+    });
+    function tabAdd(name,url) {
+        layui.tab.tabAdd({
+            icon:'fa-user',
+            id:name,
+            title:name,
+            url:url
+        });
+    }
+
+	
+
+    function getQudao() {
+        var qudao = [];
+    	$.ajax({
+            type: 'GET',
+            url: "${base}/qudao/manager/query",
+            dataType: 'json',
+			async:false,
+			success: function (res) {
+                var row = res.data;
+				qudao.push({text:"全部渠道",value:""});
+                for(var i =0 ;i< row.length;i++){
+                    qudao.push({text:row[i].name,value:row[i].id});
+                }
+            }
+        });
+        return qudao;
+    }
+    function strNumSize(tempNum) {
+        var stringNum = tempNum.toString();
+        var index = stringNum.indexOf(".");
+        var newNum = stringNum;
+        if(index != -1) {
+            newNum = stringNum.substring(0, index)
+        };
+        return newNum.length;
+    }
+    function unitConvert(num) {
+        var moneyUnits = ["", "万", "亿", "万亿"];
+        var dividend = 10000;
+        var curentNum = num;
+        //转换数字
+        var curentUnit = moneyUnits[0];
+        //转换单位
+        for(var i = 0; i < 4; i++) {
+            curentUnit = moneyUnits[i];
+            if(strNumSize(curentNum) < 5) {
+                break;
+            };
+            curentNum = curentNum / dividend;
+        };
+        var m = {
+            num: 0,
+            unit: ""
+        };
+        m.num = curentNum.toFixed(1);
+        m.unit = curentUnit;
+        return  m.num+m.unit;
+    }
+
+    function getGameType() {
+        var gameType = [];
+        $.ajax({
+            type: 'GET',
+            url: "${base}/game/type",
+            dataType: 'json',
+            async:false,
+            success: function (res) {
+                var row = res.data;
+                for(var i =0 ;i< row.length;i++){
+                    gameType.push({text:row[i].type_name,value:row[i].type});
+                }
+            }
+        });
+        return gameType;
+    }
+
+    $(function () {
+
+
+    });
+
+
+</script>
+</body>
+
+</html>

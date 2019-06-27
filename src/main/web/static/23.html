@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>游戏后台</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="${base}/js/mobile/weui.css">
+	<link rel="stylesheet" href="${base}/js/mobile/common.css">
+</head>
+
+
+<body>
+
+<div class="page__bd" style="height: 100%;">
+	<div class="weui-tab">
+		<div class="weui-tab__panel">
+			<div class="weui-cells">
+				<div class="weui-cell">
+					<div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+						<img src="http://m.zhengjinfan.cn/images/0.jpg" style="width: 50px;display: block"/>
+					</div>
+					<div class="weui-cell__bd">
+						<p>${info.name}</p>
+						<p style="font-size: 13px;color: #888888;">
+							推广					</p>
+					</div>
+				</div>
+
+				<div class="weui-cell"><div class="weui-cell__bd"><p>提成比例</p></div></div>
+				<div class="weui-cell"><div class="weui-cell__ft">${ratio}</div></div>
+				<div class="weui-cell"><div class="weui-cell__bd"><p>余额</p></div><div class="weui-cell__ft">${info.balance}</div></div>
+				<div class="weui-cell"><div class="weui-cell__bd"><p>总注册量</p></div><div class="weui-cell__ft">${info.totalRegisterCount}</div></div>
+				<div class="weui-cell"><div class="weui-cell__bd"><p>总收益</p></div><div class="weui-cell__ft">${info.totalProfit}</div></div>
+
+
+				<div class="weui-cell">
+				</div>
+
+				<a class="weui-cell weui-cell_access" href="${base}/tuiguang/user/password?backBtn=true">
+					<div class="weui-cell__bd">
+						<p>修改密码</p>
+					</div>
+					<div class="weui-cell__ft"></div>
+				</a>
+
+				<a class="weui-cell weui-cell_access" href="${base}/tuiguang/user/link?backBtn=true">
+					<div class="weui-cell__bd">
+						<p>推广地址</p>
+					</div>
+					<div class="weui-cell__ft"></div>
+				</a>
+
+
+				<a class="weui-cell weui-cell_access" href="${base}/tuiguang/user/settlement?backBtn=true">
+					<div class="weui-cell__bd">
+						<p>提现申请</p>
+					</div>
+					<div class="weui-cell__ft"></div>
+				</a>
+
+				<a class="weui-cell weui-cell_access" href="${base}/tuiguang/user/tongji?backBtn=true">
+					<div class="weui-cell__bd">
+						<p>统计报表</p>
+					</div>
+					<div class="weui-cell__ft"></div>
+				</a>
+
+
+
+
+				<div class="weui-cell">
+				</div>
+				<a class="weui-cell weui-cell_access" href="${base}/logout">
+					<div class="weui-cell__bd">
+						<p>退出</p>
+					</div>
+					<div class="weui-cell__ft"></div>
+				</a>
+			</div>
+		</div>
+		<!--
+        <div class="weui-tabbar">
+            <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+                <span style="display: inline-block;position: relative;">
+                    <img src="/agent/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
+                    <span class="weui-badge" style="position: absolute;top: -2px;right: -13px;">8</span>
+                </span>
+                <p class="weui-tabbar__label">首页</p>
+            </a>
+            <a href="javascript:;" class="weui-tabbar__item">
+                <img src="/agent/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
+                <p class="weui-tabbar__label">交易记录</p>
+            </a>
+            <a href="javascript:;" class="weui-tabbar__item">
+                <span style="display: inline-block;position: relative;">
+                    <img src="/agent/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
+                    <span class="weui-badge weui-badge_dot" style="position: absolute;top: 0;right: -6px;"></span>
+                </span>
+                <p class="weui-tabbar__label">发现</p>
+            </a>
+            <a href="javascript:;" class="weui-tabbar__item">
+                <img src="/agent/images/icon_tabbar.png" alt="" class="weui-tabbar__icon">
+                <p class="weui-tabbar__label">我</p>
+            </a>
+        </div>
+        -->
+	</div>
+</div>
+
+</body>
+
+</html>
