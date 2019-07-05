@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title></title>
-	<script>
-		/*
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        /*
          我们的程序是由一条一条语句构成的，语句是按照自上而下的顺序一条一条执行的
          在JS 中可以使用{}来为语句进行分组，同一个{}中的语句我们称为是一组语句，
          他们要么执行，要么不执行，一个{}中的语句我们也称为叫一个代码块，代码块后边不用再编写
@@ -71,32 +71,159 @@
          ①执行初始化表达式，初始化变量，②执行条件表达式，判断是否执行循环，如果为true，则执行循环③，如果为false，
          终止循环，④执行更新表达式，更新表达式执行完毕继续重复②
 
+         break关键字可以用来退出switch或循环语句
+         不能再if语句中使用break和continue
+         break关键字，会立即终止离他最近的那个循环语句
+
+         continue关键字可以用来跳过当次循环,会立即终止离他最近的那个循环语句
+
+         可以在for循环外面给语句取名字，break 语句名字或是continue语句名字，可以对这名字的循环体进行判断；
+
          */
+        //			outer:
+        //			for(var i  = 5; i> 0 ; i--){
+        //				document.write("外循环");
+        //          for (var j = 0; j < i+1;j++) {
+        //          	break outer;
+        //              document.write("*内循环");
+        //          }
+        //     		 }
 
-		//		var cj = prompt("请输入成绩");
-		//		if(cj==1){
-		//			alert("sssssssss")
-		//		}
+        //			for(var i  = 5; i> 0 ; i--){
+        //          if (i==2) {
+        //          	continue;
+        //          }
+        //				document.write(i);
+        //     		 }
 
-		//		var S = "ss";
-		//		var f =  45
-		// 		alert(isNaN(f));
+        //		var cj = prompt("请输入成绩");
+        //		if(cj==1){
+        //			alert("sssssssss")
+        //		}
 
-		var mon = 1000;
-		var count = 0;
-		while(mon<5000){
-			mon = mon*1.05;
-			count ++;
+        //		var S = "ss";
+        //		var f =  45
+        // 		alert(isNaN(f));
 
-			if(mon == 5000){
+        //获取年利率
+        //		var mon = 1000;
+        //		var count = 0;
+        //		while(mon<5000){
+        //			mon = mon*1.05;
+        //			count ++;
+        //
+        //			if(mon == 5000){
+        //
+        //				break;
+        //
+        //			}
+        //		}
+        //		alert(count);
+        //获取水仙数
+        //		for (var i = 100; i<1000;i++){
+        //
+        //         var bai = parseInt(i/100);
+        //
+        //         var shi = parseInt((i - bai*100)/10);
+        //
+        //         var ge = i % 10;
+        //
+        //         if(bai*bai*bai+shi*shi*shi+ge*ge*ge == i){
+        //         	console.log(i);
+        //         }
+        //      }
+        //		在页面中接收一个用户输入的数字,并判断是否是质数
+        //			var num = prompt("qing");
+        //			if(num<=1){
+        //				alert("不合法");
+        //			}else{
+        //				var flag = true;
+        //				for (var i = 2; i < num; i++) {
+        //					if( num % i == 0){
+        //						flag = false;
+        //					}
+        //				}
+        //				if(flag == true){
+        //					alert("是");
+        //				}else{
+        //					alert("不是");
+        //				}
+        //			}
+        //展示图形
+        //*
+        //**
+        //***
+        //****
+        //*****
+        //		var s ="";
+        //	for(var i = 0; i<5; i++){
+        //
+        //		s = s + "*";
+        //		console.log(s);
+        //		document.write(s+"<br/>");
+        //	}
 
-				break;
+        //	for(var i  = 5; i> 0 ; i--){
+        //          for (var j = 0; j < i+1;j++) {
+        //              document.write("*");
+        //          }
+        //          document.write("<br />");
+        //      }
 
-			}
-		}
-		alert(count);
+        //	for(var i  = 0; i< 5 ; i++){
+        //	for (var j = 0; j < i+1;j++) {
+        //		document.write("*");
+        //	}
+        //	document.write("<br />");
+        //	}
 
-	</script>
+        //	for(var i  = 0; i< 5 ; i++){
+        //	for (var j = 0; j < 5-i;j++) {
+        //		document.write("*");
+        //	}
+        //	document.write("<br />");
+        //	}
+
+        // 99乘法表
+
+        //for(var i = 1; i <=10 ;i++){
+        //	if(i<10){
+        //		for(var j = 1;j < i+1; j++){
+        //		document.write(j+"*"+i+"="+i*j+"&nbsp");
+        //		}
+        //		document.write("<br />");
+        //	}
+        //}
+
+        //for(var i  = 1; i< 10 ; i++){
+        //	for (var j = 1; j < i+1;j++) {
+        //	document.write("<span>"+j+"*"+i+"="+i*j+"</span>");
+        //	}
+        //	document.write("<br />");
+        //	}
+
+        //打印100内的质数
+        //for(var i =2; i<100;i++){
+        //	var q = true;
+        //	for (var j = 2; j<Math.sqrt(i); j++) {
+        //		if(i%j == 0){
+        //			 q = false;
+        //             break;
+        //		}
+        //	}
+        //	if(q){
+        //		document.write(i+"<br />");
+        //	}
+        //}
+
+    </script>
+    <style type="text/css">
+
+        span{
+            display: inline-block;
+            width: 70px;
+        }
+    </style>
 </head>
 <body>
 </body>
