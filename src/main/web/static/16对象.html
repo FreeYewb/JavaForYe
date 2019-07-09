@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script type="text/javascript">
+		/**
+		 this的情况
+		 1.当以函数的形式调用时，this是window
+		 2.当以方法的形式调用时，谁调用方法this就是谁
+		 3.当以构造函数的形式调用时，this就是新创建的那个对象
+
+		 创建一个构造函数，专门用来创建Person对象的，构造函数就是一个普通的函数，创建方式和普通函数没有
+		 区别，不同的是构造函数修改上字母大写
+		 构造函数和普通函数的区别就是调用方式的不同，普通函数是直接调用，二构造函数需要使用new关键字来调用
+
+		 构造函数的执行流程：
+		 1.立即创建一个新的对象
+		 2.将新建的对象数字为函数中this，在构造函数中可以使用this来引用新建的对象
+		 3.逐行执行函数中的代码
+		 4.将新建的对象作为返回值返回
+
+		 使用同一个构造函数创建的对象，我们称为一类对象，也将一个构造函数称为一个类
+		 我们将通过一个构造函数创建的对象，称为是该类的实例
+
+		 创建一个Person构造函数，在Person构造函数中，为每一个都 添加了一个sayName方法，目前我们的方法是在构造函数内部创建的，
+		 也就是构造函数每执行一次就会创建一个新的sayName方法，也是所有实例的sayName都是唯一的，这样导致了构造函数执行一次就会
+		 创建一个新的方法，执行10000次就会创建10000个新的方法，而10000个方法都是一模一样的，这是完全没有必要，完全可以使所有的
+		 对象共享同一个方法
+
+		 将sayName方法在全局作用域中定义
+		 将函数定义在全局作用域，污染了全局作用域的命名空间，而且定义在全局作用域中也很不安全
+		 原型prototype
+		 我们创建的每一个函数，解析器都会向函数中添加一个属性prototype，这个属性对应着一个对象，这个对象
+		 就是我们所谓的原型对象
+		 如果函数作为普通函数调用prototype没有任何作用，当函数以构造函数的形式调用时，它所创建的对象中都会有一个
+		 隐含的属性，指向该构造函数的原型对象，我们可以通过__proto__来访问该属性
+
+		 原型对象就相当于一个公共的区域，所有同一个类的实例都可以访问到这个原型对象,我们可以将对象中共有的内容，统一设置到原型对象中
+
+		 当我们访问对象的一个属性或方法时，它会先在对象自身中寻找，如果有则直接使用，如果没有则会去原型对象中寻找，如果找到则直接使用
+		 以后我们创建构造函数时，可以将这些对象共有的属性和方法，统一添加到构造函数的原型对象中，这样不用分别为每一个对象添加，也不会
+		 影响到全局作用域，就可以使每个对象都具有这些属性和方法了
+
+		 可以使用对象的hasOwnProperty()来检查对象自身中是否含有该属性，使用该方法只有当对象自身中含有属性时，才会返回true
+
+		 原型对象也是对象，所以它也有原型，当我们使用一个对象的属性或方法时，会先在自身中寻找，自身中如果有，则直接使用，如果没有则
+		 去原型对象中寻找，如果原型对象中有，则使用，如果没有则去原型的原型中寻找，直到找到Object对象的原型，Object对象的原型
+		 没有原型，如果在Object中依然没有找到，则返回undefined
+		 console.log(Myclass.__proto__.__proto__.hasOwnProperty("hasOwnProperty"));
+		 */
+
+
+
+		function Person(name,age){
+			this.name = name;
+			this.age = age;
+//				 this.sayname = fun;
+		}
+		//			function fun(){
+		//				alert(this.name+this.age);
+		//			};
+		Person.prototype.sayname = function (){
+			alert(this.name+this.age);
+		}
+		var per = new Person("是孙悟空",56);
+		var per2 = new  Person("sa",5);
+		//			console.log(per);
+		//			console.log(per instanceof Person);//使用instanceof 可以 检查一个对象是否是一个类的实例
+		//			console.log(per.sayname == per2.sayname);
+		per.sayname();
+
+		function Myclass(){
+
+		}
+		//向Myclass的原型中添加属性a
+		Myclass.prototype.a = 132;
+		//向Myclass的原型中添加一个方法
+		Myclass.prototype.sayHello = function(){
+			alert("hello");
+		}
+		var mc = new  Myclass();
+		mc.name = "s";
+
+		var mc2 = new Myclass();
+		//			console.log(mc.__proto__ == Myclass.prototype);
+		//			console.log(mc2.__proto__ == Myclass.prototype);
+		//			console.log(mc.a);
+		//			console.log(mc.sayHello());
+		//			console.log(mc.hasOwnProperty("name"));//可以使用对象的hasOwnProperty()来检查对象自身中是否含有该属性
+		console.log(Myclass.__proto__.__proto__.hasOwnProperty("hasOwnProperty"));
+	</script>
+</head>
+<body>
+</body>
+</html>
