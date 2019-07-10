@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript">
+			/**
+			 所谓的遍历数组，就是将数组中所有的元素都取出来
+			 for(var i = 0;i<arr.length;i++){}
+			 一般我们都是所有for循环去遍历数组，JS中还为我们提供了一个方法，用来遍历数组
+			 forEach() 这个方法只支持IE8以上的浏览器
+			 forEach()方法需要一个函数作为参数
+			 - 像这种函数，由我们创建但是不由我们调用的，我们称为回调函数
+			 - 数组中有几个元素函数就会执行几次，每次执行时，浏览器会将遍历到的元素以实参的形式传递进来，我们可以
+			 来定义形参，来读取这些内容
+			 -游览器会在回调函数中传递三个参数：第一个参数，就是当前正在遍历的元素，第二个参数，就是当前正在遍历的元素的索引
+			 第三个参数，就是正在遍历的数组
+			 
+			 
+			 */
+//			var arr = ["sad","fds"];
+//			for (var i=0; i<arr.length;i++) {
+//				console.log(arr[i]);
+//			}
+function Person (name,age){
+	this.name = name;
+	this.age = age;
+	
+}
+//	修改Person原型的toString		
+Person.prototype.toString = function(){
+	return this.name +"和"+ this.age; 
+}
+
+var per = new Person("sad0","18");
+var per2 = new Person("sad1","19");
+var per3 = new Person("sad2","17");
+var per4 = new Person("gfgf","17");
+var per5 = new Person("gasdaf","45");
+//console.log(per);
+
+var arr=[per,per2,per3,per4,per5];
+//arr形参，要提取信息的数组
+function fun(arr)  {
+	//创建一个新的数组
+	var newarr = [];
+	//遍历arr，获取arr中Person对象
+	for(var i = 0;i<arr.length;i++){
+		age = arr[i].age;
+		
+		if(age <18 ){
+			continue;
+		}
+		newarr.push(arr[i]);
+	}
+	//判断Person对象的age是否大于等于18
+	
+	//如果大于等于18.则将这个对象添加到newArr中
+	
+	//将新的数组返回
+	return newarr;
+}
+var s = fun(arr);
+console.log(s);
+
+arr.forEach(function(value,index,obj){
+	console.log(value);
+});
+		</script>
+	</head>
+	<body>
+	</body>
+</html>
